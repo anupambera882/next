@@ -1,5 +1,6 @@
 "use client"
 import AddFoodItem from "@/app/_components/AddFoodItem"
+import FoodItemList from "@/app/_components/FoodItemList";
 import { useState } from "react"
 
 export default function RestaurantDashboard() {
@@ -9,7 +10,7 @@ export default function RestaurantDashboard() {
       <button onClick={() => setAddItem(true)}>Add food</button>
       <button onClick={() => setAddItem(false)}>Dashboard</button>
       {
-        addItem ? <AddFoodItem /> : <h1>This is from RestaurantDashboard</h1>
+        addItem ? <AddFoodItem setAddItem={setAddItem} /> : <FoodItemList/>
       }
     </>
   )

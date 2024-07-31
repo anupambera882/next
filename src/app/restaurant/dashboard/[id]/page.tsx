@@ -1,37 +1,47 @@
-import { Dispatch, SetStateAction, useState } from "react"
+'use client'
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react"
 
-export default function AddFoodItem({ setAddItem }: { setAddItem: Dispatch<SetStateAction<boolean>> }) {
+export default function UpdateFoodItem({ params: { id } }: { params: { id: string } }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [path, setPath] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState(false);
+  const router = useRouter();
 
-  const handleAddFoodItem = async () => {
-    const val = localStorage.getItem('restaurantUser');
-    if (!val) {
-      return false;
-    }
-    const { id } = JSON.parse(val);
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`http://localhost:3000/api/restaurant/foods/edit/${id}`);
+      const { success, result } = await res.json();
+      if (!success) {
+        alert('Error while update');
+        return;
+      }
+      setName(result.name);
+      setPrice(result.price);
+      setPath(result.path);
+      setDescription(result.description);
+    })();
+  }, [setDescription, id, setName, setPath, setPrice]);
 
-    if (!name || !price || !path || !description || !id) {
+  const handleEditFoodItem = async () => {
+    if (!name || !price || !path || !description) {
       setError(true);
       return false;
     }
-    const res = await fetch('http://localhost:3000/api/restaurant/foods', {
-      method: "POST",
-      body: JSON.stringify({ name, price, path, description, restaurantId: id }),
-    });
-    const { result, success } = await res.json();
-    if (success) {
-      setAddItem(false);
-      alert('add food item successfully');
-    }
-  }
 
+    await fetch(`http://localhost:3000/api/restaurant/foods/edit/${id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ name, price, path, description }),
+      });
+
+    router.push("../dashboard");
+  }
   return (
     <div className="container">
-      <h1>Add new food item</h1>
+      <h1>Update food item</h1>
       <div className="input-wrapper">
         <input type="text" className="input-field" placeholder="Enter food name" value={name} onChange={(e) => setName(e.target.value)} />
         {error && !name && <span className="input-error">Please Enter valid name</span>}
@@ -49,9 +59,11 @@ export default function AddFoodItem({ setAddItem }: { setAddItem: Dispatch<SetSt
         {error && !description && <span className="input-error">Please Enter valid description</span>}
       </div>
       <div className="input-wrapper">
-        <button className="button" onClick={handleAddFoodItem}>Add food item</button>
+        <button className="button" onClick={handleEditFoodItem}>Update Food Item</button>
+      </div>
+      <div className="input-wrapper">
+        <button className="button" onClick={() => router.push("../dashboard")}>Back To list</button>
       </div>
     </div>
   )
 }
-
