@@ -2,9 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../libs/db";
 
 export async function GET(req: NextRequest) {
-  const food = await prisma.restaurant.findMany({
-    distinct: ['city'],
-    select: { city: true }
+  const searchParams = req.nextUrl.searchParams;
+  const location = searchParams.get("location");
+  const restaurantName = searchParams.get("restaurant");
+  const where: any = {};
+  if (location) where["city"] = location;
+  if (restaurantName) where["name"] = { startsWith: restaurantName };
+
+  const restaurantList = await prisma.restaurant.findMany({
+    where,
   });
-  return NextResponse.json({ result: food, success: true, message: 'food create successfully!' })
+
+  return NextResponse.json({
+    result: restaurantList,
+    success: true,
+    message: "location",
+  });
 }

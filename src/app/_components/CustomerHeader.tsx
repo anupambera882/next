@@ -5,7 +5,7 @@ export default function CustomerHeader() {
   return (
     <div className="header-wrapper">
       <div className="logo">
-        <Image src="/logo.jpg" alt="logo" width={150} height={150} />
+        <Image src="/logo.jpg" alt="logo" width={100} height={100} />
       </div>
       <ul>
         <li>
