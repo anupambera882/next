@@ -92,7 +92,7 @@ table td button:hover {
 
 .main-page-banner,
 .restaurant-page-banner {
-  background-image: url('https://solutions.rdtonline.com/hubfs/Polarcraft%20Fast%20Food%20Trends%20Header%20Image.png');
+  background-image: url("https://solutions.rdtonline.com/hubfs/Polarcraft%20Fast%20Food%20Trends%20Header%20Image.png");
   background-color: rgb(0, 0, 0, 0.6);
   background-blend-mode: multiply;
   padding: 30px;
@@ -181,4 +181,91 @@ table td button:hover {
 
 .restaurant-page-banner h1 {
   font-size: 65px;
+}
+
+.details-wrapper {
+  display: flex;
+  background-color: orange;
+}
+
+.details-wrapper h4 {
+  width: 50%;
+}
+
+.food-item-wrapper {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.food-item-wrapper .list-item {
+  padding: 20px;
+  color: orange;
+  font-weight: bold;
+  border-bottom: 1px solid orange;
+  display: flex;
+  text-transform: capitalize;
+}
+
+.food-item-wrapper .list-item button {
+  color: #fff;
+  border: none;
+  background-color: orange;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.food-item-wrapper .list-item img {
+  width: 100px;
+  padding-right: 20px;
+}
+
+.food-item-wrapper .list-item .description {
+  font-weight: lighter;
+}
+
+.list-item-block-1 {
+  width: 20%;
+}
+
+.list-item-block-2 {
+  width: 80%;
+}
+
+.list-item-block-3 {
+  width: 20%;
+}
+
+.total-price-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid orange;
+  padding-bottom: 20px;
+}
+
+.total-price-wrapper .row {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20%;
+  margin-right: 20%;
+  color: orange;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.total-price-wrapper .block-1 {
+  width: 70%;
+}
+
+.total-price-wrapper .block-2 {
+  width: 30%;
+}
+
+.total-price-wrapper .block-2 button {
+  padding: 10px 25px;
+  border: none;
+  background-color: orange;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
 }
