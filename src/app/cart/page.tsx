@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import CustomerHeader from "../_components/CustomerHeader";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [cartStorage, setCartStorage] = useState<
@@ -18,8 +19,16 @@ export default function Page() {
   const [totalPrice, setTotalPrice] = useState(() =>
     cartStorage.reduce((a, b) => a + b.price, 0)
   );
+  const router = useRouter();
 
-  console.log({ totalPrice });
+  const orderNow = () => {
+    const userData = localStorage.getItem("user");
+    if (userData && JSON.parse(userData)) {
+      router.push("/order");
+    } else {
+      router.push("/user-auth?order=true");
+    }
+  };
 
   return (
     <div>
@@ -64,7 +73,7 @@ export default function Page() {
           </div>
         </div>
         <div className="block-2">
-          <button>Order now</button>
+          <button onClick={orderNow}>Order now</button>
         </div>
       </div>
     </div>

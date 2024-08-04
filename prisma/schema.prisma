@@ -18,20 +18,22 @@ model Restaurant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Food      Food[]
+  Order     Order[]
 
   @@index([email])
 }
 
 model Food {
-  id           Int        @id @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   name         String
   price        Int
   path         String
   description  String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId Int
+  orderDetails orderDetails[]
 }
 
 model User {
@@ -44,6 +46,30 @@ model User {
   mobile    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  order     Order[]
 
   @@index([email])
+}
+
+model Order {
+  id           Int            @id @default(autoincrement())
+  amount       String
+  status       String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  orderDetails orderDetails[]
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+  restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId Int
+}
+
+model orderDetails {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  food      Food     @relation(fields: [foodId], references: [id], onDelete: Cascade)
+  foodId    Int
+  Order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
 }

@@ -1,7 +1,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function UserRegister() {
+export default function UserRegister({
+  redirect: { order },
+}: {
+  redirect: { order: boolean };
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +18,25 @@ export default function UserRegister() {
   const router = useRouter();
 
   const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      setPasswordError(true);
+      return false;
+    } else {
+      setPasswordError(false);
+    }
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !city ||
+      !address ||
+      !mobile
+    ) {
+      setError(true);
+    } else {
+      setError(false);
+    }
     const res = await fetch("http://localhost:3000/api/user/register", {
       method: "POST",
       body: JSON.stringify({
@@ -30,7 +53,12 @@ export default function UserRegister() {
     if (success) {
       result.password = undefined;
       localStorage.setItem("user", JSON.stringify(result));
-      router.push("/");
+
+      if (order) {
+        router.push("/order");
+      } else {
+        router.push("/");
+      }
     }
   };
 

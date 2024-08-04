@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function CustomerHeader({
   cartData,
   removeCartData,
+  isRemoveCartData,
 }: {
   cartData:
     | {
@@ -14,12 +15,13 @@ export default function CustomerHeader({
         price: number;
         path: string;
         description: string;
-        createdAt: Date;
-        updatedAt: Date;
+        createdAt: string;
+        updatedAt: string;
         restaurantId: number;
       }
     | undefined;
   removeCartData: number | undefined;
+  isRemoveCartData?: boolean;
 }) {
   const userStorage = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") || "")
@@ -36,8 +38,8 @@ export default function CustomerHeader({
       price: number;
       path: string;
       description: string;
-      createdAt: Date;
-      updatedAt: Date;
+      createdAt: string;
+      updatedAt: string;
       restaurantId: number;
     }[]
   >(cartStorage ? cartStorage : []);
@@ -74,6 +76,13 @@ export default function CustomerHeader({
       setCartNumber((prev) => --prev);
     }
   }, [removeCartData]);
+
+  useEffect(() => {
+    if (isRemoveCartData) {
+      setCartItem([]);
+      localStorage.removeItem("cart");
+    }
+  }, [isRemoveCartData]);
 
   const logout = () => {
     localStorage.removeItem("user");

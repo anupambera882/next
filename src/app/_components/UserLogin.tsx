@@ -1,7 +1,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function UserLogin() {
+export default function UserLogin({
+  redirect: { order },
+}: {
+  redirect: { order: boolean };
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -23,7 +27,11 @@ export default function UserLogin() {
     if (success) {
       result.password = undefined;
       localStorage.setItem("user", JSON.stringify(result));
-      router.push("/");
+      if (order) {
+        router.push("/order");
+      } else {
+        router.push("/"); 
+      }
     }
   };
 
